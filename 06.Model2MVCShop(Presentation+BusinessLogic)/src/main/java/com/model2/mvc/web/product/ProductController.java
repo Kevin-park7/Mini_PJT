@@ -2,7 +2,9 @@ package com.model2.mvc.web.product;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.product.ProductService;
+import com.model2.mvc.service.purchase.PurchaseService;
 
 
 
@@ -30,6 +35,9 @@ public class ProductController {
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
 	//setter Method 구현 않음
+	@Autowired
+	@Qualifier("purchaseServiceImpl")
+	private PurchaseService purchaseService;
 		
 	public ProductController(){
 		System.out.println(this.getClass());
@@ -71,12 +79,34 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/getProduct.do")
-	public String getProduct( @RequestParam("prodNo") int prodNo , Model model ) throws Exception {
+	public String getProduct(@CookieValue(value="history", required = false) Cookie cookie, @RequestParam("prodNo") int prodNo , Model model,HttpServletResponse response ) throws Exception {
 		
 		System.out.println("/getProduct.do");
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
 		// Model 과 View 연결
+		Purchase purchase = purchaseService.getPurchase2(prodNo);
+		
+		String prvHistory = "";
+		// Cookie는 Request, Response를 가지고 불러오기 또는 전달이 이루어진다.
+		// 현재 Project에서 사용되는 Cookie의 구조는 Key "history", value: prodNo이면서 각 ProdNo은 , 로 구분 되어있음.
+		
+		
+		
+		System.out.println("getProduct Cookie 1: "+ prvHistory);			
+		//Cookie cookie = new Cookie();
+		
+		if(cookie !=null) {
+			prvHistory=cookie.getValue();
+		}
+		System.out.println("getProduct Cookie 2: "+ prvHistory);
+		System.out.println("getProduct Cookie 3저장: "+ prodNo+","+prvHistory);
+		cookie = new Cookie("history", prodNo+","+prvHistory);	// 쿠키 생성
+		
+		cookie.setMaxAge(60*60);	// 헌재 Cookie의 유지기간
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		model.addAttribute("purchase", purchase);
 		model.addAttribute("vo", product);
 		
 		return "forward:/product/getProduct.jsp";
@@ -99,6 +129,8 @@ public class ProductController {
 
 		System.out.println("/updateProduct.do");
 		//Business Logic
+		String manuDate = product.getManuDate().replace("-", "");
+		product.setManuDate(manuDate);
 		productService.updateProduct(product);
 		
 //		int sessionId=((Product)session.getAttribute("product")).getProdNo();

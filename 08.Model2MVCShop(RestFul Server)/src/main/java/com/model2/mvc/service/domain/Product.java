@@ -67,11 +67,7 @@ public class Product {
 	}
 
 	// Override
-	@Override
 	public String toString() {
-		System.out.println(">>>> ProductVO : [fileName]" + fileName
-				+ "[manuDate]" + manuDate+ "[price]" + price + "[prodDetail]" + prodDetail
-				+ "[prodName]" + prodName + "[prodNo]" + prodNo);
 		return "ProductVO : [fileName]" + fileName
 				+ "[manuDate]" + manuDate+ "[price]" + price + "[prodDetail]" + prodDetail
 				+ "[prodName]" + prodName + "[prodNo]" + prodNo;

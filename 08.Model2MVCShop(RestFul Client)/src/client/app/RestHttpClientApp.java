@@ -44,7 +44,11 @@ public class RestHttpClientApp {
 		System.out.println("\n====================================\n");
 		//RestHttpClientApp.UpdateUserTest_Codehaus2();
 		System.out.println("\n====================================\n");
-		RestHttpClientApp.listUserTest_Codehaus();
+		//RestHttpClientApp.listUserTest_Codehaus();
+		
+		
+		
+		
 		System.out.println("\n====================================\n");
 		//RestHttpClientApp.getProductTest_JsonSimple();
 		System.out.println("\n====================================\n");
@@ -57,6 +61,20 @@ public class RestHttpClientApp {
 		//RestHttpClientApp.UpdateProductTest_Codehaus();
 		System.out.println("\n====================================\n");
 		//RestHttpClientApp.ListProductTest_Codehaus();
+		
+		
+		
+		
+		System.out.println("\n====================================\n");
+		//RestHttpClientApp.ListPurchaseTest_Codehaus();
+		System.out.println("\n====================================\n");
+		//RestHttpClientApp.AddPurchaseTest_Codehaus();
+		System.out.println("\n====================================\n");
+		//RestHttpClientApp.getPurchaseTest_Codehaus();
+		System.out.println("\n====================================\n");
+		//RestHttpClientApp.UpdatePurchaseTest_Codehaus();
+		System.out.println("\n====================================\n");
+		RestHttpClientApp.getPurchaseTest_JsonSimple();
 
 	
 	
@@ -66,6 +84,85 @@ public class RestHttpClientApp {
 
 	
 
+
+	private static void getPurchaseTest_JsonSimple()throws Exception {
+		// TODO Auto-generated method stub
+		HttpClient httpClient = new DefaultHttpClient();
+		
+		String url= 	"http://127.0.0.1:8080/purchase/json/getPurchase/10002";
+				
+		// HttpGet : Http Protocol 의 GET 방식 Request
+		HttpGet httpGet = new HttpGet(url);
+		httpGet.setHeader("Accept", "application/json");
+		httpGet.setHeader("Content-Type", "application/json");
+		
+		// HttpResponse : Http Protocol 응답 Message 추상화
+		HttpResponse httpResponse = httpClient.execute(httpGet);
+		
+		//==> Response 확인
+		System.out.println(httpResponse);
+		System.out.println();
+
+		//==> Response 중 entity(DATA) 확인
+		HttpEntity httpEntity = httpResponse.getEntity();
+		
+		//==> InputStream 생성
+		InputStream is = httpEntity.getContent();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+		
+		System.out.println("[ Server 에서 받은 Data 확인 ] ");
+		String serverData = br.readLine();
+		System.out.println(serverData);
+		
+		//==> 내용읽기(JSON Value 확인)
+		JSONObject jsonobj = (JSONObject)JSONValue.parse(serverData);
+		System.out.println(jsonobj);
+	}
+
+
+
+
+
+
+	private static void UpdatePurchaseTest_Codehaus() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+	private static void getPurchaseTest_Codehaus() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+	private static void AddPurchaseTest_Codehaus() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
+
+	private static void ListPurchaseTest_Codehaus() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	private static void ListProductTest_Codehaus()throws Exception {
 		// TODO Auto-generated method stub
@@ -330,6 +427,7 @@ private static void getProductTest_Codehaus()throws Exception {
 			
 	}
 
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
 		private static void AddUserTest_Codehaus()throws Exception {
 			// TODO Auto-generated method stub
