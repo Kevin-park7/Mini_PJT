@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 
 
@@ -72,9 +73,9 @@ public class RestHttpClientApp {
 		System.out.println("\n====================================\n");
 		//RestHttpClientApp.getPurchaseTest_Codehaus();
 		System.out.println("\n====================================\n");
-		//RestHttpClientApp.UpdatePurchaseTest_Codehaus();
+		RestHttpClientApp.UpdatePurchaseTest_Codehaus();
 		System.out.println("\n====================================\n");
-		RestHttpClientApp.getPurchaseTest_JsonSimple();
+		//RestHttpClientApp.getPurchaseTest_JsonSimple();
 
 	
 	
@@ -124,9 +125,59 @@ public class RestHttpClientApp {
 
 
 
-	private static void UpdatePurchaseTest_Codehaus() {
+	private static void UpdatePurchaseTest_Codehaus()throws Exception {
 		// TODO Auto-generated method stub
+HttpClient httpClient = new DefaultHttpClient();
 		
+		String url = "http://127.0.0.1:8080/purchase/json/updatePurchase";
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setHeader("Accept", "application/json");
+		httpPost.setHeader("Content-Type", "application/json");
+		ObjectMapper objectMapper01 = new ObjectMapper();
+		//Object ==> JSON Value 로 변환
+		Product product = new Product();
+		product.setProdName("테스트123");
+		product.setProdDetail("테스용");
+		product.setManuDate("1");
+		product.setPrice(9999);
+		product.setFileName("1234");
+		product.setProdNo(10010);
+		JSONObject json = new JSONObject();
+		json.put("paymentOption", 001);
+		json.put("receiverName", "박성원");
+		json.put("receiverPhone", 0102056);
+		json.put("divyAddr", "서울");
+		json.put("divyRequest", "빠른새");
+		json.put("tranNo", 10001);
+		String jsonValue = objectMapper01.writeValueAsString(json);
+		HttpEntity httpEntity01 = new StringEntity(jsonValue,"utf-8");
+		
+		httpPost.setEntity(httpEntity01);
+		HttpResponse httpResponse = httpClient.execute(httpPost);
+		
+		//==> Response 확인
+		System.out.println(httpResponse);
+		System.out.println();
+
+		//==> Response 중 entity(DATA) 확인
+		HttpEntity httpEntity = httpResponse.getEntity();
+		
+		//==> InputStream 생성
+		InputStream is = httpEntity.getContent();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+		
+		//==> 다른 방법으로 serverData 처리 
+		//System.out.println("[ Server 에서 받은 Data 확인 ] ");
+		//String serverData = br.readLine();
+		//System.out.println(serverData);
+		
+		//==> API 확인 : Stream 객체를 직접 전달 
+		JSONObject jsonobj = (JSONObject)JSONValue.parse(br);
+		System.out.println(jsonobj);
+	
+		ObjectMapper objectMapper = new ObjectMapper();
+		 Purchase purchase = objectMapper.readValue(jsonobj.toString(), Purchase.class);
+		 System.out.println(purchase);
 	}
 
 

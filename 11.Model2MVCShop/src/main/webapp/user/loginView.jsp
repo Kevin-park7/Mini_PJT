@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -84,7 +85,7 @@
 		<div class="row">
 		
 			<div class="col-md-6">
-					<img src="/images/logo-spring.png" class="img-rounded" width="100%" />
+					<img src="/images/aa.gif" class="img-rounded" width="100%" />
 			</div>
 	   	 	
 	 	 	<div class="col-md-6">
@@ -124,7 +125,9 @@
 			
   	 	</div>
   	 	<!--  row Start /////////////////////////////////////-->
-  	 	
+  	 	curl -X POST "https://kapi.kakao.com/v1/user/logout" \
+	-H "Content-Type: application/x-www-form-urlencoded" \
+	-H "Authorization: Bearer k_8XkGvOopnJqrDD97iZXJAOkWdGa0PH2lUPGAo9dNoAAAF86vzVmg"
  	</div>
  	<!--  화면구성 div end /////////////////////////////////////-->
 

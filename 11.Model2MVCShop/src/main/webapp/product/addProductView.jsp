@@ -61,11 +61,8 @@ function fncAddProduct(){
 	}
 
 
-//$("form").attr("method","POST").attr("action","/product/addProduct").submit();
-	window.open("/product/addProduct",
-			"popWin", 
-			"left=2=300,top=200,width=300,height=300,marginwidth=0,marginheight=0,"+
-			"scrollbars=no,scrolling=no,menubar=no,resizable=no");
+$("form").attr("method","POST").attr("action","/product/addProduct").submit();
+
 }
 
 $(function(){
@@ -120,6 +117,7 @@ $(function() {
 				<div class="col-sm-4">
 				<input type="text" class="form-control" id="manuDate"
 						name="manuDate" placeholder="제조일자"> 
+						<div id="datepicker"></div>
 				</div>
 			</div>
 			
@@ -128,6 +126,13 @@ $(function() {
 				<div class="col-sm-4">
 				<input type="text" class="form-control" id="price"
 						name="price" placeholder="금액입력"> 
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="amount" class="col-sm-offset-1 col-sm-3 control-label">상품수량</label>
+				<div class="col-sm-4">
+				<input type="text" class="form-control" id="amount"
+						name="amount" placeholder="수량입력"> 
 				</div>
 			</div>
 			

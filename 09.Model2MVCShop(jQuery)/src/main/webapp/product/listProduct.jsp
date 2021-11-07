@@ -94,21 +94,29 @@ $(function(){
 	});
 	var menu = $("input[name='menu']").val()
 	var prodNo = $("#prodNo").val();
-	console.log(prodNo)
+	//var pron = $(".ct_list_pop td:nth-child(9)").find("input[name=prodNo]").val();
+	
+	//console.log(prodn)
 	if(menu=="manage"){
 		
 	$(".ct_list_pop td:nth-child(3)").click(function(){
-		alert($(".ct_list_pop td:nth-child(3)").text());
+		//alert($(".ct_list_pop td:nth-child(3)").text());
 		//$("form").attr("method","GET").attr("/product/updateProduct?prodNo=10000").submit();
 		self.location = "/product/updateProduct?prodNo="+$(this).find("input[name=prodNo]").val();
 	});
 	}
 	if(menu=="search"){
 		$(".ct_list_pop td:nth-child(3)").click(function(){	
-		alert("돌아가라")
+		//alert("돌아가라")
 		self.location = "/product/getProduct?prodNo="+$(this).find("input[name=prodNo]").val();
 		});
 	}
+	$("h7:contains('배송하기')").click(function(){
+		
+		alert("왜?")
+		self.location = "/purchase/updateTranCodeByProd?prodNo="+$(this).find("input[name=prod]").val()+"&tranCode=002";
+	});
+	
 	
 	
 	
@@ -242,9 +250,43 @@ $(function(){
 						<td></td>
 						<td align="left">${prod.regDate}</td>
 						<td></td>
-						<td align="left">재고 없음 <a
-							href="/product/updateTranCodeByProd?prodNo=10002&tranCode=2">재고
-								없음</a>
+						<td align="left">		
+						<c:if test= "${param.menu eq 'manage'}">
+						
+				
+						<c:if test= "${prod.proTranCode eq '001'}">
+							구매완료 감사합니다<%-- <a href="/purchase/updateTranCodeByProd?prodNo=${prod.prodNo}&tranCode=002"> 배송하기</a> --%>
+							<br>
+							<h7>배송하기<input type="hidden" id="prodNo" name="prod" value="${prod.prodNo}"></h7> 
+						</c:if>
+						<c:if test= "${prod.proTranCode eq '002'}">
+							배송중 조그만 기달력!!
+						</c:if>
+						<c:if test= "${prod.proTranCode eq '003'}">
+							물품도착 리뷰남겨주세요
+						</c:if>
+						<c:if test="${prod.proTranCode eq null}">
+						 	이것좀 사세요!!
+						 </c:if>
+					</c:if>
+					<c:if test= "${param.menu eq 'search' }">
+						<c:if test= "${prod.proTranCode eq null}">
+							제고있음
+						</c:if> 
+						<c:if test= "${prod.proTranCode eq '1  '}">
+							구매완료
+						</c:if>
+						<c:if test= "${prod.proTranCode eq '001'}">
+							구매완료
+						</c:if>
+						<c:if test= "${prod.proTranCode eq '002'}">
+							배송중
+						</c:if>
+						<c:if test= "${prod.proTranCode eq '003'}">
+							물품도착
+						</c:if>
+						
+						</c:if>
 
 						</td>
 					</tr>

@@ -149,7 +149,7 @@ $(function(){
 	}
 	
 
-	$( ".ct_list_pop td:nth-child(11)" ).on("click" , function() {
+	$( ".ct_list_pop td:nth-child(13)" ).on("click" , function() {
 		//Debug..
 		//alert(  $( this ).text().trim() );
 		
@@ -180,6 +180,7 @@ $(function(){
 													+"상품상세정보 	 : "+JSONData.prodDetail+"<br/>"
 													+"제조일자 	 : "+JSONData.manuDate+"<br/>"
 													+"가격  		 : "+JSONData.price+"<br/>"
+													+"상품수량   	 : "+JSONData.amount+"<br/>"
 													+"등록일자 	 : "+JSONData.regDate+"<br/>"
 													+"</h5>";
 						//Debug...									
@@ -190,6 +191,11 @@ $(function(){
 			});
 			////////////////////////////////////////////////////////////////////////////////////////////
 		
+	});
+	$("h7:contains('배송하기')").click(function(){
+		
+		alert("왜?")
+		self.location = "/purchase/updateTranCodeByProd?prodNo="+$(this).find("input[name=prod]").val()+"&tranCode=002";
 	});
 	
 	
@@ -274,6 +280,8 @@ $(function(){
 					<td class="ct_line02"></td>
 					<td class="ct_list_b" width="150">가격</td>
 					<td class="ct_line02"></td>
+					<td class="ct_list_b">상품수량</td>
+					<td class="ct_line02"></td>
 					<td class="ct_list_b">등록일</td>
 					<td class="ct_line02"></td>
 					<td class="ct_list_b">현재상태</td>
@@ -301,11 +309,39 @@ $(function(){
 						<td></td>
 						<td align="left">${prod.price}</td>
 						<td></td>
+						<td align="left">${prod.amount}</td>
+						<td></td>
 						<td align="left">${prod.regDate}</td>
 						<td></td>
-						<td align="left">재고 없음 <a
-							href="/product/updateTranCodeByProd?prodNo=10002&tranCode=2">재고
-								없음</a></td>
+						<td align="left">
+																<c:if test= "${param.menu eq 'manage'}">
+						
+				
+						<c:if test= "${prod.proTranCode eq '001'}">
+							구매완료 감사합니다<%-- <a href="/purchase/updateTranCodeByProd?prodNo=${prod.prodNo}&tranCode=002"> 배송하기</a> --%>
+							<br>
+							<h7>배송하기<input type="hidden" id="prodNo" name="prod" value="${prod.prodNo}"></h7> 
+						</c:if>
+						<c:if test= "${prod.proTranCode eq '002'}">
+							배송중 조그만 기달력!!
+						</c:if>
+						<c:if test= "${prod.proTranCode eq '003'}">
+							물품도착 리뷰남겨주세요
+						</c:if>
+						<c:if test="${prod.proTranCode eq null}">
+						 	이것좀 사세요!!
+						 </c:if>
+					</c:if>
+					<c:if test= "${param.menu eq 'search' }">
+						<c:if test= "${prod.amount != 0}">
+							제고있음
+						</c:if> 
+						<c:if test= "${prod.amount == 0}">
+							제고없음
+						</c:if>
+			
+						
+						</c:if>
 						<td></td>
 						<td align="left" >	
 						<i class="glyphicon glyphicon-ok" id= "${prod.prodNo}"></i>

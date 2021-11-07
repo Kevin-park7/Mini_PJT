@@ -67,7 +67,7 @@ public class PurchaseServiceTest {
 //		Assert.assertEquals("test@test.com", product.getEmail());
 	}
 	
-	//@Test
+	@Test
 	public void testGetPurchase() throws Exception {
 		
 		Purchase purchase = new Purchase();
@@ -80,10 +80,10 @@ public class PurchaseServiceTest {
 //		product.setAddr("경기도");
 //		product.setEmail("test@test.com");
 		
-		purchase = purchaseService.getPurchase(10011);
+		purchase = purchaseService.getPurchase(10001);
 
 		//==> console 확인
-		System.out.println(purchase);
+		System.out.println("testget>>>>>>>>>>>>>>"+purchase);
 	}
 		//==> API 확인
 //		Assert.assertEquals("10001", product.getProdNo());
@@ -157,7 +157,7 @@ public class PurchaseServiceTest {
 //	}
 //	
 //	 //==>  주석을 풀고 실행하면....
-	 @Test
+	// @Test
 	 public void testGetPurchaseListAll() throws Exception{
 		 
 	 	Search search = new Search();
