@@ -16,7 +16,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import com.model2.mvc.service.domain.Product;
-import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 
 
@@ -73,7 +72,7 @@ public class RestHttpClientApp {
 		System.out.println("\n====================================\n");
 		//RestHttpClientApp.getPurchaseTest_Codehaus();
 		System.out.println("\n====================================\n");
-		RestHttpClientApp.UpdatePurchaseTest_Codehaus();
+		//RestHttpClientApp.UpdatePurchaseTest_Codehaus();
 		System.out.println("\n====================================\n");
 		//RestHttpClientApp.getPurchaseTest_JsonSimple();
 
@@ -176,8 +175,8 @@ HttpClient httpClient = new DefaultHttpClient();
 		System.out.println(jsonobj);
 	
 		ObjectMapper objectMapper = new ObjectMapper();
-		 Purchase purchase = objectMapper.readValue(jsonobj.toString(), Purchase.class);
-		 System.out.println(purchase);
+		 //Purchase purchase = objectMapper.readValue(jsonobj.toString(), Purchase.class);
+		// System.out.println(purchase);
 	}
 
 
