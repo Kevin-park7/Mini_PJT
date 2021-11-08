@@ -61,7 +61,9 @@ public class RestHttpClientApp {
 		System.out.println("\n====================================\n");
 		//RestHttpClientApp.UpdateProductTest_Codehaus();
 		System.out.println("\n====================================\n");
-		//RestHttpClientApp.ListProductTest_Codehaus();
+		RestHttpClientApp.ListProductTest_Codehaus();
+		System.out.println("\n====================================\n");
+		//RestHttpClientApp.ListProdNoTest_Codehaus();
 		
 		
 		
@@ -73,7 +75,7 @@ public class RestHttpClientApp {
 		System.out.println("\n====================================\n");
 		//RestHttpClientApp.getPurchaseTest_Codehaus();
 		System.out.println("\n====================================\n");
-		RestHttpClientApp.UpdatePurchaseTest_Codehaus();
+		//RestHttpClientApp.UpdatePurchaseTest_Codehaus();
 		System.out.println("\n====================================\n");
 		//RestHttpClientApp.getPurchaseTest_JsonSimple();
 
@@ -214,7 +216,50 @@ HttpClient httpClient = new DefaultHttpClient();
 
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	private static void ListProdNoTest_Codehaus()throws Exception {
+		// TODO Auto-generated method stub
+		HttpClient httpClient = new DefaultHttpClient();
+		
+		String url = "http://127.0.0.1:8080/product/json/listProduct";
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setHeader("Accept", "application/json");
+		httpPost.setHeader("Content-Type", "application/json");
+		ObjectMapper objectMapper01 = new ObjectMapper();
+		//Object ==> JSON Value 로 변환
+		JSONObject json = new JSONObject();
+		json.put("prodNo", 10008);
+		json.put("proTranCode", 001);
+		
+		String jsonValue = objectMapper01.writeValueAsString(json);
+		HttpEntity httpEntity01 = new StringEntity(jsonValue,"utf-8");
+		
+		httpPost.setEntity(httpEntity01);
+		HttpResponse httpResponse = httpClient.execute(httpPost);
+		
+		//==> Response 확인
+		System.out.println(httpResponse);
+		System.out.println();
 
+		//==> Response 중 entity(DATA) 확인
+		HttpEntity httpEntity = httpResponse.getEntity();
+		
+		//==> InputStream 생성
+		InputStream is = httpEntity.getContent();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+		
+		//==> 다른 방법으로 serverData 처리 
+		//System.out.println("[ Server 에서 받은 Data 확인 ] ");
+		//String serverData = br.readLine();
+		//System.out.println(serverData);
+		
+		//==> API 확인 : Stream 객체를 직접 전달 
+		JSONObject jsonobj = (JSONObject)JSONValue.parse(br);
+		System.out.println(jsonobj);
+	
+
+	}
+	
+	
 	private static void ListProductTest_Codehaus()throws Exception {
 		// TODO Auto-generated method stub
 		HttpClient httpClient = new DefaultHttpClient();
@@ -227,7 +272,7 @@ HttpClient httpClient = new DefaultHttpClient();
 		//Object ==> JSON Value 로 변환
 		JSONObject json = new JSONObject();
 		json.put("currentPage", 1);
-		json.put("pageSize", 3);
+		json.put("pageSize", 12);
 		
 		String jsonValue = objectMapper01.writeValueAsString(json);
 		HttpEntity httpEntity01 = new StringEntity(jsonValue,"utf-8");

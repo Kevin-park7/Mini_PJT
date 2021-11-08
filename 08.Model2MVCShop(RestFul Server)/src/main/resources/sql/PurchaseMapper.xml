@@ -17,6 +17,7 @@
 		<result property="tranCode" 		column="tran_status_code" 	jdbcType="NUMERIC"/>
 		<result property="orderDate" 		column="order_data" 		jdbcType="DATE"/>
 		<result property="divyDate" 		column="dlvy_date" 			jdbcType="DATE"/>
+		<result property="quantity" 		column="quantity" 			jdbcType="NUMERIC"/>
 		
 		<association property="purchaseProd"  javaType="product">
 			<id property="prodNo" 			column="prod_no" 			jdbcType="NUMERIC"/>
@@ -31,15 +32,16 @@
 	<insert 	id="addPurchase"		parameterType="purchase" >
 	 	INSERT
 		INTO transaction( tran_no , prod_no , buyer_id , payment_option , receiver_name, receiver_phone, demailaddr, dlvy_request , tran_status_code,
-					order_data , dlvy_date) 
+					order_data , dlvy_date,quantity) 
 		VALUES	 (	seq_transaction_tran_no.nextval , #{purchaseProd.prodNo:VARCHAR} , #{buyer.userId:VARCHAR} , #{paymentOption} , #{receiverName} , 
 							#{receiverPhone} , #{divyAddr} , #{divyRequest}  , '001' ,
-							SYSDATE , #{divyDate} )
+							SYSDATE , #{divyDate},#{quantity} )
 	 </insert>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getPurchase"	parameterType="int"	resultMap="purchaseSelectMap">
-		SELECT t.tran_no, t.payment_option, t.receiver_name, t.receiver_phone, t.demailaddr, t.dlvy_request, t.tran_status_code, t.order_data, t.dlvy_date, t.prod_no, t.buyer_id
+		SELECT t.tran_no, t.payment_option, t.receiver_name, t.receiver_phone, t.demailaddr, t.dlvy_request, t.tran_status_code,
+		 t.order_data, t.dlvy_date, t.prod_no, t.buyer_id, t.quantity
 		FROM transaction t, product p,users u 
 		WHERE t.prod_no = p.prod_no
 			and t.buyer_id = u.user_id 
@@ -61,11 +63,19 @@
 	 	RECEIVER_PHONE			= #{receiverPhone},
 	 	DEMAILADDR				= #{divyAddr},
 	 	DLVY_REQUEST			= #{divyRequest},
-	 	DLVY_DATE				= SYSDATE
+	 	DLVY_DATE				= SYSDATE,
+	 	quantity				= #{quantity}
 	 </set>
 	 	WHERE TRAN_NO=#{tranNo}
 	 </update>
 	 
+	 	 <update	id="updateQuantity"		parameterType="purchase" >
+	 UPDATE transaction
+	 <set>
+	 	quantity				= #{quantity}
+	 </set>
+	 	WHERE TRAN_NO=#{tranNo}
+	 </update>
 	 
 	 <update	id="updateTranCode"		parameterType="int" >
 	 UPDATE transaction
@@ -81,7 +91,7 @@
 			FROM(SELECT inner_table.*,ROWNUM AS row_seq
 				FROM (SELECT t.tran_no, t.payment_option, t.receiver_name, 
 				t.receiver_phone, t.demailaddr, t.dlvy_request, t.tran_status_code,
-				 t.order_data, t.dlvy_date, t.prod_no, t.buyer_id
+				 t.order_data, t.dlvy_date, t.prod_no, t.buyer_id, t.quantity
 					FROM  transaction t,product p,users u
 						where t.prod_no = p.prod_no
 						and t.buyer_id = u.user_id
