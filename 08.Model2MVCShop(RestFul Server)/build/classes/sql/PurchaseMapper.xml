@@ -37,13 +37,6 @@
 							#{receiverPhone} , #{divyAddr} , #{divyRequest}  , '001' ,
 							SYSDATE , #{divyDate},#{quantity} )
 	 </insert>
-	 	 <select 	id="getProdNo"	parameterType="int"	resultMap="purchaseSelectMap">
-		SELECT t.tran_no, t.payment_option, t.receiver_name, t.receiver_phone, t.demailaddr, t.dlvy_request, t.tran_status_code,
-		 t.order_data, t.dlvy_date, t.prod_no, t.buyer_id, t.quantity
-		FROM product p, transaction t
-		WHERE p.prod_no = t.prod_no
-			AND p.prod_no = #{value}
-	 </select>
 	 
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getPurchase"	parameterType="int"	resultMap="purchaseSelectMap">

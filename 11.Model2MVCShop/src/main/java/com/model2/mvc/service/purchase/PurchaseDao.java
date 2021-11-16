@@ -20,6 +20,8 @@ public interface PurchaseDao {
 	public Purchase getPurchase2(int prodNo)throws Exception ;
 	//prodNo 로 tranNo 를 조회 하는 
 	// SELECT LIST
+	public List<Purchase> getProdNo	(int ProdNo)throws Exception;
+	
 	public List<Purchase> getPurchaseList(Search search , String buyerId) throws Exception ;
 	//select로 정보전체를 조회하고 그결과를 search에 담아서 list인터페이스에 Product의 도메인을 담아서 많은 정보를 출력
 	public HashMap<String,Object> getSaleList(Search search) throws Exception ;

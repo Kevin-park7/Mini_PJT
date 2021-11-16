@@ -115,7 +115,6 @@ function fncGetUserList(currentPage) {
 }
 $(function(){
 	$("button:contains('검색')").click(function(){
-		alert("검색");
 		fncGetUserList(1);
 	});
 	var menu = $("input[name='menu']").val()
@@ -124,7 +123,7 @@ $(function(){
 	if(menu=="manage"){
 		
 	$(".ct_list_pop td:nth-child(3)").click(function(){
-		alert($(".ct_list_pop td:nth-child(3)").text());
+		//alert($(".ct_list_pop td:nth-child(3)").text());
 		//$("form").attr("method","GET").attr("/product/updateProduct?prodNo=10000").submit();
 		//self.location = "/product/updateProduct?prodNo="+$(this).find("input[name=prodNo]").val();
 		window.open("/product/updateProduct?prodNo="+$(this).find("input[name=prodNo]").val(),
@@ -136,7 +135,6 @@ $(function(){
 	}
 	if(menu=="search"){
 		$(".ct_list_pop td:nth-child(3)").click(function(){	
-		alert("돌아가라")
 		//self.location = "/product/getProduct?prodNo="+$(this).find("input[name=prodNo]").val();
 		window.open("/product/getProduct?prodNo="+$(this).find("input[name=prodNo]").val(),
 				"popWin", 
@@ -176,12 +174,14 @@ $(function(){
 						var displayValue = "<h5>"
 													+"상품번호   	 : "+JSONData.prodNo+"<br/>"
 													+"상품명    	 : "+JSONData.prodName+"<br/>"
-													+"상품이미지	 : "+JSONData.fileName+"<br/>"
+													+"상품이미지	 : <br/>"
+													+"<img src='/images/uploadFiles/"+JSONData.fileName+"' /> "
 													+"상품상세정보 	 : "+JSONData.prodDetail+"<br/>"
 													+"제조일자 	 : "+JSONData.manuDate+"<br/>"
 													+"가격  		 : "+JSONData.price+"<br/>"
 													+"상품수량   	 : "+JSONData.amount+"<br/>"
 													+"등록일자 	 : "+JSONData.regDate+"<br/>"
+													+"<a href=\"/purchase/addPurchase?prodNo="+prodNo+"\">[구매]</a>"
 													+"</h5>";
 						//Debug...									
 						//alert(displayValue);
@@ -192,19 +192,78 @@ $(function(){
 			////////////////////////////////////////////////////////////////////////////////////////////
 		
 	});
-	$("h7:contains('배송하기')").click(function(){
+	$(".ct_list_pop td:nth-child(11):contains('배송하기')").click(function(){
+		console.log($(this).parent().next().html());
 		
-		alert("왜?")
-		self.location = "/purchase/updateTranCodeByProd?prodNo="+$(this).find("input[name=prod]").val()+"&tranCode=002";
-	});
+		var prodNo = $(this).find("input[name=prod]").val();
+		
+		$.ajax( 
+				{
+					url : "/purchase/json/getProdNo/"+prodNo ,
+					method : "GET" ,
+					dataType : "json" ,
+					headers : {
+						"Accept" : "application/json",
+						"Content-Type" : "application/json"
+					},
+					success : function(JSONData , status) {
+
+						//Debug...
+						//alert(status);
+						//Debug...
+						//alert("JSONData : \n"+JSONData);
+						//console.log(JSONData.list);
+						//console.log((JSONData.list)[0]);
+					// 	for(var i=0 in JSONData.list){
+						var displayValue = "<h5>";
+						for( var i=0; i<JSONData.list.length; i++){
+									displayValue += "<td>상품번호   	 : "+JSONData.list[i].purchaseProd.prodNo+"</td>"
+													+"<td>상품등록번호 	 : "+JSONData.list[i].tranNo+"<br/>"
+													+"<td>배송하기</td>"	
+													+"<td><input type='hidden' id='tranNo' name='tranNo' value="+JSONData.list[i].tranNo+"></td>"
+													+"<a href=\"/purchase/updateTranCodeByProd?tranNo="+JSONData.list[i].tranNo+"&tranCode=002\">[배송하기]</a>"
+		/* 				$.each(JSONData, function(i,item){
+							let tr = $("<tr></tr>");
+							console.log(item)
+							$.each(item, function(key,value){
+								$("<td></td>").html(value).appendTo(tr);
+							});
+							$("h7").append(tr);
+						}); */
+						
+						}
+						displayValue +="</h5>"; 
+		/* 	  		$("contains('배송하기')").click(function(){
+							self.location = "/purchase/updateTranCodeByProd?prodNo="+JSONData.list[i].tranNo+"&tranCode=002";
+						});  */
+						//Debug...									
+						//alert(displayValue);
+				 		$("h5").remove();
+				 		console.log(displayValue);
+				 	    //$(this).parent().next().chiled().html(displayValue); 
+				 		//$("#"+prodNo+"").html(displayValue); 
+						//$(this).closest('body').find("#txt").html(displayValue);
+						$("#txt").html(displayValue);
+					}	
+				});
+		////////////////////////////////////////////////////////////////////////////////////////////
 	
+});
+	
+	
+ 	$(".ct_list_pop td:nth-child(4):contains('배송하기')").click(function(){
+		
+		self.location = "/purchase/updateTranCodeByProd?prodNo="+$(this).find("input[name=tranNo]").val()+"&tranCode=002";
+	});
+ 	
+	 
 	
 	
 	
 	$( ".ct_list_pop td:nth-child(3)" ).css("color" , "red");
 	$("h7").css("color" , "red");
 	
-	$(".ct_list_pop:nth-child(4n+6)" ).css("background-color" , "whitesmoke");
+	$(".ct_list_pop:nth-child(4n+3)" ).css("background-color" , "whitesmoke");
 	
 });
 	
@@ -309,45 +368,45 @@ $(function(){
 						<td></td>
 						<td align="left">${prod.price}</td>
 						<td></td>
-						<td align="left">${prod.amount}</td>
+						<td align="left">총${prod.total}/남은수량${prod.amount}</td>
 						<td></td>
 						<td align="left">${prod.regDate}</td>
 						<td></td>
 						<td align="left">
-																<c:if test= "${param.menu eq 'manage'}">
-						
+						<c:if test= "${param.menu eq 'manage'}">
+							<c:if test= "${prod.proTranCode eq '001'}">
+									구매완료 감사합니다<%-- <a href="/purchase/updateTranCodeByProd?prodNo=${prod.prodNo}&tranCode=002"> 배송하기</a> --%>
+									<br>
+									<h7>배송하기<input type="hidden" id="prod" name="prod" value="${prod.prodNo}"></h7> 
+								</c:if>
+								<c:if test= "${prod.proTranCode eq '002'}">
+									배송중 조그만 기달력!!
+								</c:if>
+								<c:if test= "${prod.proTranCode eq '003'}">
+									물품도착 리뷰남겨주세요
+								</c:if>
+								<c:if test="${prod.proTranCode eq null}">
+								 	이것좀 사세요!!
+							</c:if>
+						</c:if>
+						<c:if test= "${param.menu eq 'search' }">
+							<c:if test= "${prod.amount != 0}">
+								제고있음
+							</c:if> 
+							<c:if test= "${prod.amount == 0}">
+								제고없음
+							</c:if>
 				
-						<c:if test= "${prod.proTranCode eq '001'}">
-							구매완료 감사합니다<%-- <a href="/purchase/updateTranCodeByProd?prodNo=${prod.prodNo}&tranCode=002"> 배송하기</a> --%>
-							<br>
-							<h7>배송하기<input type="hidden" id="prodNo" name="prod" value="${prod.prodNo}"></h7> 
-						</c:if>
-						<c:if test= "${prod.proTranCode eq '002'}">
-							배송중 조그만 기달력!!
-						</c:if>
-						<c:if test= "${prod.proTranCode eq '003'}">
-							물품도착 리뷰남겨주세요
-						</c:if>
-						<c:if test="${prod.proTranCode eq null}">
-						 	이것좀 사세요!!
-						 </c:if>
-					</c:if>
-					<c:if test= "${param.menu eq 'search' }">
-						<c:if test= "${prod.amount != 0}">
-							제고있음
-						</c:if> 
-						<c:if test= "${prod.amount == 0}">
-							제고없음
-						</c:if>
-			
-						
-						</c:if>
+							
+							</c:if>
+						</td>
 						<td></td>
 						<td align="left" >	
 						<i class="glyphicon glyphicon-ok" id= "${prod.prodNo}"></i>
 						<input type="hidden" name="prodNo" value="${prod.prodNo}">
 						</td>
 					</tr>
+					<tr id="txt"><%-- <td><input type="hidden" name="pro" value="${prod.prodNo}"></td> --%></tr>
 				</c:forEach>
 				</tbody>
 

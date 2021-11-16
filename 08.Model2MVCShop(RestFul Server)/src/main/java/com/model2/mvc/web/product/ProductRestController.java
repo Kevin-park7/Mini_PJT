@@ -74,11 +74,4 @@ public class ProductRestController {
 		
 		return map;
 	}
-	@RequestMapping(value="json/listProdNo",method=RequestMethod.POST)
-	public Map listProdNo(@RequestBody Product product)throws Exception{
-		Map<String> map = productService.getProdNo(Product);
-		
-		
-		return map;
-	}
 }

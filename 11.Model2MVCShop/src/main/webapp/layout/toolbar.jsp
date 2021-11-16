@@ -89,6 +89,13 @@
 	             <ul class="nav navbar-nav navbar-right">
 	                <li><a href="#">로그아웃</a></li>
 	            </ul>
+	            <ul class="nav navbar-nav navbar-right">
+	                <li><a id="create-kakao-link-btn" href="javascript:;">
+  <img
+    src="https://developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
+  style="width:30px;height:30px;"/>
+</a></li>
+	            </ul>
 		</div>
 		<!-- dropdown hover END -->	       
 	    
@@ -152,6 +159,17 @@
 					"left=100,top=200,width=300,height=130,marginwidth=0,marginheight=0,"+
 					"scrollbars=no,scrolling=no,menubar=no,resizable=no");
 		});
-		
-		
+		$(function(){
+			
+		  Kakao.Link.createCustomButton({
+			    container: '#create-kakao-link-btn',
+			    templateId: 3135,
+			    templateArgs: {
+			      title:
+			        '판교 맛집에 들르다. 다양하고 풍부한 퓨전 한정식. 깔끔한 내부 인테리어 라이언',
+			      description:
+			        '부담없는 가격에 푸짐하게 즐기는 점심메뉴 런치한정식, 불고기정식, 돼지 김치찌개 등',
+			    },
+			  })
+		});
 	</script>  

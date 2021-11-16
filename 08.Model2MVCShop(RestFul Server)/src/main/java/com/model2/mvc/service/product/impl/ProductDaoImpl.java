@@ -1,6 +1,8 @@
 package com.model2.mvc.service.product.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.product.ProductDao;
 
 
@@ -46,6 +49,12 @@ public class ProductDaoImpl implements ProductDao{
 	
 	public void updateProduct(Product product) throws Exception {
 		sqlSession.update("ProductMapper.updateProduct", product);
+	}
+	
+	public List<Purchase> getProdNo(Product product)throws Exception{
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("prodNo",product.getProdNo());
+		return sqlSession.selectList("ProductMapper.getProdNo",map);
 	}
 
 	public List<Product> getProductList(Search search) throws Exception {

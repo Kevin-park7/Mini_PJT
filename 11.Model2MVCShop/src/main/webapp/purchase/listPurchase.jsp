@@ -103,7 +103,6 @@ body {
 						"click",
 						function() {
 							//Debug..
-							alert("클릭했냐?");
 
 							//////////////////////////// 추가 , 변경된 부분 ///////////////////////////////////
 							//self.location ="/user/getUser?userId="+$(this).text().trim();
@@ -176,8 +175,6 @@ body {
 
 		$("h7:contains('상품도착')").click(
 				function() {
-
-					alert("왜?")
 					self.location = "/purchase/updateTranCode?tranNo="
 							+ $(this).find("input[name=tranNo]").val()
 							+ "&tranCode=003";

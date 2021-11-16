@@ -14,7 +14,16 @@ public class Product {
 	private Date regDate;
 	private String proTranCode;
 	private int amount;
+	private int total;
 	
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
 	public Product(){
 	}
 	
@@ -79,6 +88,6 @@ public class Product {
 	public String toString() {
 		return "Product [fileName=" + fileName + ", manuDate=" + manuDate + ", price=" + price + ", prodDetail="
 				+ prodDetail + ", prodName=" + prodName + ", prodNo=" + prodNo + ", regDate=" + regDate
-				+ ", proTranCode=" + proTranCode + ", amount=" + amount + "]";
+				+ ", proTranCode=" + proTranCode + ", amount=" + amount + ", total=" + total + "]";
 	}	
 }

@@ -49,6 +49,7 @@
 	</tr>
 	<tr>
 		<td>구매자이름</td>
+		
 		<td>${purch.receiverName}</td>
 		<td></td>
 	</tr>

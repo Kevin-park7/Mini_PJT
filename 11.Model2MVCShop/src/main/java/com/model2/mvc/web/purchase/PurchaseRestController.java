@@ -67,7 +67,7 @@ public class PurchaseRestController {
 		
 		System.out.println("/purchase/json/updatePurchase : POST");
 		purchaseService.updatePurchase(purchase);
-		
+
 		return purchaseService.getPurchase(purchase.getTranNo());
 	}
 	@RequestMapping(value="json/listPurchase",method=RequestMethod.POST)
@@ -77,6 +77,14 @@ public class PurchaseRestController {
 		
 		
 		
+		return map;
+	}
+	@RequestMapping(value="json/getProdNo/{prodNo}",method=RequestMethod.GET)
+	public Map getProdNo(@PathVariable int prodNo)throws Exception{
+		
+		System.out.println("/purchase/json/getProdNo  : GET  ");
+		Map<String,Object> map = purchaseService.getProdNo(prodNo);
+		map.put("product",productService.getProduct(prodNo));
 		return map;
 	}
 }

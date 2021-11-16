@@ -100,8 +100,10 @@ public class PurchaseController {
 		//Business Logic
 		Purchase purchase = purchaseService.getPurchase(tranNo);
 		// Model °ú View ¿¬°á
+		Product product =productService.getProduct(purchase.getPurchaseProd().getProdNo());
 		ModelAndView view = new ModelAndView();
 		view.addObject("vo", purchase);
+		view.addObject("product",product);
 		view.setViewName("forward:/purchase/getPurchaseView.jsp");
 		
 		return view;
@@ -144,12 +146,13 @@ public class PurchaseController {
 	
 	@RequestMapping(value="updateTranCodeByProd", method=RequestMethod.GET)
 	public ModelAndView updateTranCode( @RequestParam("tranCode")String tranCode,
-										@RequestParam("prodNo")int prodNo) throws Exception{
+										@RequestParam("tranNo")int prodNo) throws Exception{
 
 		System.out.println("/updateTranCodeByProd");
 		//Business Logic
 		Purchase purchase = new Purchase();
-		purchase = purchaseService.getPurchase2(prodNo);
+		//purchase = purchaseService.getPurchase2(prodNo);
+		purchase.setTranNo(prodNo);
 		purchase.setTranCode(tranCode);
 		System.out.println("111111"+purchase);
 		purchaseService.updateTranCode(purchase);

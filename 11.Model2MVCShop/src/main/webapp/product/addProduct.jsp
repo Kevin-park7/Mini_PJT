@@ -116,7 +116,7 @@ body {
 				<label for="prodDetail"
 					class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
 				<div class="col-sm-4">
-					<div class="well well-sm">${product.fileName}</div>
+					<div class="well well-sm"><img src = "/images/uploadFiles/${product.fileName}" width="400"   height="400"/></div>
 				</div>
 			</div>
 			<div class="form-group">

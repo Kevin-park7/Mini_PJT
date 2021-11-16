@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.product.ProductDao;
 import com.model2.mvc.service.product.ProductService;
 
@@ -39,6 +40,7 @@ public class ProductServiceImpl implements ProductService{
 	public Product getProduct(int prodNo) throws Exception {
 		return productDao.getProduct(prodNo);
 	}
+
 
 	public Map<String, Object> getProductList(Search search) throws Exception {
 		List<Product> list= productDao.getProductList(search);

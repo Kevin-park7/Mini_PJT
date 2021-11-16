@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.Purchase;
 
 
 //==> 회원관리에서 CRUD 추상화/캡슐화한 DAO Interface Definition
@@ -21,7 +22,6 @@ public interface ProductDao {
 	// SELECT LIST
 	public List<Product> getProductList(Search search) throws Exception ;
 	//select로 정보전체를 조회하고 그결과를 search에 담아서 list인터페이스에 Product의 도메인을 담아서 많은 정보를 출력
-
 	// UPDATE
 	public void updateProduct(Product Product) throws Exception ;
 	//Product도메인에 변경할 값을 받아와 데이터를 수정한다. 그러고 void이기 때문에 결과 값은 없다

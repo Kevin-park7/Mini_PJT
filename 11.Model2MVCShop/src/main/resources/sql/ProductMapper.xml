@@ -17,6 +17,7 @@
 		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
 		<result property="proTranCode" 		column="TRAN_STATUS_CODE" 			jdbcType="VARCHAR" />
 		<result property="amount" 		column="amount" 			jdbcType="NUMERIC" />
+		<result property="total" 		column="total" 			jdbcType="NUMERIC" />
 	</resultMap>
 	
 	
@@ -24,7 +25,7 @@
 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getProduct"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
-		prod_no , prod_name , prod_detail , manufacture_day ,  price ,  reg_date , image_file ,amount		
+		prod_no , prod_name , prod_detail , manufacture_day ,  price ,  reg_date , image_file ,amount,total	
 		FROM product 
 		WHERE prod_no = #{value}
 	 </select>
@@ -32,7 +33,7 @@
 	 	 <!-- SQL : SELECT ONE -->
 	 <select 	id="getLastProduct"	parameterType="int"	resultMap="productSelectMap">
 		SELECT
-		prod_no , prod_name , prod_detail , manufacture_day ,  price ,  reg_date , image_file 	,amount	
+		prod_no , prod_name , prod_detail , manufacture_day ,  price ,  reg_date , image_file 	,amount,total	
 		FROM (
 				SELECT *
 				from product
@@ -45,9 +46,9 @@
 	 <!-- SQL : INSERT -->
 	<insert 	id="addProduct"		parameterType="product" >
 	 	INSERT
-		INTO product( prod_no , prod_name , prod_detail , manufacture_day ,  price , image_file ,  reg_date,amount) 
+		INTO product( prod_no , prod_name , prod_detail , manufacture_day ,  price , image_file ,  reg_date,amount,total) 
 		VALUES	 (	seq_product_prod_no.nextval , #{prodName} , #{prodDetail} , #{manuDate} , 
-							#{price} , #{fileName} , SYSDATE, #{amount})
+							#{price} , #{fileName} , SYSDATE, #{amount},#{total})
 	 </insert>
 	 
 		 <!-- SQL : UPDATE -->
@@ -77,7 +78,7 @@
 	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT DISTINCT p.prod_no , p.prod_name , p.prod_detail , p.manufacture_day ,  p.price , p.image_file ,  p.reg_date, t.TRAN_STATUS_CODE,p.amount 
+	  					FROM		(	SELECT DISTINCT p.prod_no , p.prod_name , p.prod_detail , p.manufacture_day ,  p.price , p.image_file ,  p.reg_date, t.TRAN_STATUS_CODE,p.amount,p.total 
 	  									FROM product p,transaction t 
 	  									<if test="searchCondition == null">
 	  									where p.prod_no = t.prod_no(+)

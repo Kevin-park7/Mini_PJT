@@ -63,7 +63,9 @@ body {
 		var receiverName = $("input[name='receiverName']").val();
 		var receiverPhone = $("input[name='receiverPhone']").val();
 		var divyRequest = $("input[name='divyRequest']").val();
-		if(quantity == null || quantity <1 ||quantity > amount ){
+		alert(amount)
+		alert(quantity)
+		if(quantity != null && quantity > amount ){
 			alert("수량 확인 부탁드립니다");
 			return;
 		}

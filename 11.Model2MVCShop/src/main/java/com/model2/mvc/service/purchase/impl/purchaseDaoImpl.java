@@ -45,7 +45,10 @@ public class purchaseDaoImpl implements PurchaseDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("PurchaseMapper.getPurchase2",prodNo);
 	}
-
+	@Override
+	public List<Purchase> getProdNo	(int ProdNo)throws Exception{
+		return sqlSession.selectList("PurchaseMapper.getProdNo",ProdNo);
+	}
 
 	@Override
 	public List<Purchase> getPurchaseList(Search search,String buyerId) throws Exception {

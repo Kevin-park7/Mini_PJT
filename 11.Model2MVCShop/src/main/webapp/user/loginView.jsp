@@ -18,7 +18,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 	<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-	
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4cd4795a794ba7c868cbab0e0e89d2fb"></script>
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
     	 body >  div.container{ 
@@ -64,12 +64,32 @@
 				self.location = "/user/addUser"
 			});
 		});
-		
+	
+		$(function() {
+			
+			var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+			var options = { //지도를 생성할 때 필요한 기본 옵션
+				center: new daum.maps.LatLng(37.57048761825395, 126.98528472087271), //지도의 중심좌표.
+				level: 3 //지도의 레벨(확대, 축소 정도)
+			};
+
+			var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴
+			var markerPosition  = new kakao.maps.LatLng(37.57048761825395, 126.98528472087271); 
+
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+			    position: markerPosition
+			});
+
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+		});
+	
 	</script>		
 	
 </head>
 
-<body>
+<body>	
 
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<div class="navbar  navbar-default">
@@ -85,7 +105,7 @@
 		<div class="row">
 		
 			<div class="col-md-6">
-					<img src="/images/aa.gif" class="img-rounded" width="100%" />
+					<img alt="../images/aa.gif" src="../images/aa.gif" style="width:500px;height:400px;">
 			</div>
 	   	 	
 	 	 	<div class="col-md-6">
@@ -117,7 +137,7 @@
 					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
 					    </div>
 					  </div>
-			
+		
 					</form>
 			   	 </div>
 			
@@ -125,10 +145,11 @@
 			
   	 	</div>
   	 	<!--  row Start /////////////////////////////////////-->
-  	 	curl -X POST "https://kapi.kakao.com/v1/user/logout" \
-	-H "Content-Type: application/x-www-form-urlencoded" \
-	-H "Authorization: Bearer k_8XkGvOopnJqrDD97iZXJAOkWdGa0PH2lUPGAo9dNoAAAF86vzVmg"
+
  	</div>
+ 	<div class="container">
+						<div id="map" style="width:1100px;height:400px;"></div>
+						</div>
  	<!--  화면구성 div end /////////////////////////////////////-->
 
 </body>

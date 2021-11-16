@@ -36,7 +36,12 @@
 <head>
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!--  ///////////////////////// Bootstrap, jQuery CDN ////////////////////////// -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 <script type="text/javascript">
 $(function(){
 	$("td.ct_btn01:contains('구매')").click(function(){
@@ -113,8 +118,8 @@ $(function(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<%--<td class="ct_write01"><%=vo.getFileName() %>--%>
-		<td class="ct_write01">${vo.fileName}
-			<img src = "/images/uploadFiles/../../images/empty.GIF"/>
+		<td class="ct_write01">
+			<img src = "/images/uploadFiles/${vo.fileName}" width="400"   height="400"/>
 		</td>
 	</tr>
 	<tr>
@@ -137,7 +142,7 @@ $(function(){
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<%--<td class="ct_write01"><%=vo.getProdDetail() %></td>--%>
-		<td class="ct_write01">${vo.amount}</td>
+		<td class="ct_write01">총${vo.total}/남은수량${vo.amount}</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
